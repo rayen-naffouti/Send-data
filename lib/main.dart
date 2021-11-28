@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Todo {
   final String title;
@@ -8,7 +9,42 @@ class Todo {
 }
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MaterialApp(
+      title: 'Passing Data',
+      home: TodosScreen(
+        todos: List.generate(
+          20,
+          (i) => Todo(
+            'Todo $i',
+            'A description of what needs to be done for Todo $i',
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class TodosScreen extends StatelessWidget {
+  const TodosScreen({Key? key, required this.todos}) : super(key: key);
+
+  final List<Todo> todos;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Todos'),
+      ),
+      body: ListView.builder(
+        itemCount: todos.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(todos[index].title),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
